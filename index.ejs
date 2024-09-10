@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample EJS Application</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <header>
+        <h1>Welcome to the Sample Application</h1>
+      </header>
+      <section class="chart-section">
+        <h2>Sample Bar Chart</h2>
+        <div class="chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
+      </section>
+      <section class="info-grid">
+        <h2>Information Grid</h2>
+        <div class="grid">
+          <div class="grid-item">Item 1: Details about this item</div>
+          <div class="grid-item">Item 2: More information here</div>
+          <div class="grid-item">Item 3: Insights and data</div>
+          <div class="grid-item">Item 4: Additional details</div>
+        </div>
+      </section>
+      <footer>
+        <p>&copy; 2024 Sample Application. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['January', 'February', 'March', 'April', 'May'],
+        datasets: [{
+          label: 'Monthly Data',
+          data: <%- JSON.stringify(data) %>,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += context.parsed.y;
+                }
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
